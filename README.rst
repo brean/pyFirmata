@@ -3,6 +3,7 @@ pyFirmata
 =========
 
 pyFirmata is a Python interface for the `Firmata`_ protocol.
+this fork works without using the default pysocket, so you it can work with bluetooth or some other future communication type
 
 .. _Firmata: http://firmata.org
 

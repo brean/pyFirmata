@@ -1,4 +1,3 @@
-import serial
 import inspect
 import time
 import itertools
@@ -69,8 +68,11 @@ class Board(object):
     _stored_data = []
     _parsing_sysex = False
 
-    def __init__(self, port, layout, baudrate=57600, name=None):
-        self.sp = serial.Serial(port, baudrate)
+    def __init__(self, sp, layout, name=None):
+        # sp is a socket or some other form of communication interface that
+        # implements the basic socket behaviour (or directly a socket):
+        # write, read, close and inWaiting functions
+        self.sp = sp
         # Allow 5 secs for Arduino's auto-reset to happen
         # Alas, Firmata blinks its version before printing it to serial
         # For 2.3, even 5 seconds might not be enough.
@@ -87,7 +89,7 @@ class Board(object):
         # probably isn't any Firmata installed
 
     def __str__(self):
-        return "Board %s on %s" % (self.name, self.sp.port)
+        return "Board %s" % (self.name)
 
     def __del__(self):
         """
