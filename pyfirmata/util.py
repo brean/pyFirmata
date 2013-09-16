@@ -1,5 +1,4 @@
 import threading
-import serial
 import time
 import os
 import pyfirmata
@@ -19,7 +18,8 @@ def get_the_board(layout=BOARDS['arduino'], base_dir='/dev/', identifier='tty.us
         if device.startswith(identifier):
             try:
                 board = pyfirmata.Board(os.path.join(base_dir, device), layout)
-            except serial.SerialException:
+            #except serial.SerialException:
+            except Exception:
                 pass
             else:
                 boards.append(board)
@@ -40,7 +40,8 @@ class Iterator(threading.Thread):
                 while self.board.bytes_available():
                     self.board.iterate()
                 time.sleep(0.001)
-            except (AttributeError, serial.SerialException, OSError), e:
+            #except (AttributeError, serial.SerialException, OSError), e:
+            except (AttributeError, OSError), e:
                 # this way we can kill the thread by setting the board object
                 # to None, or when the serial port is closed by board.exit()
                 break
