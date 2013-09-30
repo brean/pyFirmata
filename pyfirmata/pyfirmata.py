@@ -68,7 +68,7 @@ class Board(object):
     _stored_data = []
     _parsing_sysex = False
 
-    def __init__(self, sp, layout, name=None):
+    def __init__(self, sp, layout, name):
         # sp is a socket or some other form of communication interface that
         # implements the basic socket behaviour (or directly a socket):
         # write, read, close and inWaiting functions
@@ -79,8 +79,6 @@ class Board(object):
         # TODO Find a more reliable way to wait until the board is ready
         self.pass_time(BOARD_SETUP_WAIT_TIME)
         self.name = name
-        if not self.name:
-            self.name = port
         self.setup_layout(layout)
         # Iterate over the first messages to get firmware data
         while self.bytes_available():
